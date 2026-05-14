@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jeel’s Day — Fury, Then Flowers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,600&family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --ink: #2a2420;
+      --muted: #6b5e54;
+      --accent: #c45c3e;
+      --wash: #7a9eb8;
+      --sun: #e8b84a;
+      --shadow: rgba(42, 36, 32, 0.12);
+      --broom: #8b6914;
+      --broom-straw: #c4a35a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; overflow-x: hidden; }
+
+    body {
+      font-family: "Outfit", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .stage {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      position: relative;
+    }
+
+    .caption {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+      font-weight: 500;
+      text-align: center;
+      max-width: 32ch;
+      line-height: 1.45;
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .caption.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .caption .emph {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .caption .name {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .scene {
+      position: relative;
+      width: min(92vw, 440px);
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(180deg, #e8dfd2 0%, #ddd3c4 100%);
+      border-radius: 20px;
+      box-shadow:
+        0 24px 48px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      overflow: hidden;
+      transition: box-shadow 0.4s ease;
+    }
+
+    .scene.rage-shake {
+      animation: sceneRattle 0.09s linear infinite;
+    }
+
+    @keyframes sceneRattle {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(3px, -2px); }
+      40% { transform: translate(-4px, 2px); }
+      60% { transform: translate(2px, 3px); }
+      80% { transform: translate(-3px, -1px); }
+    }
+
+    .scene.rage-tint {
+      box-shadow:
+        0 24px 48px var(--shadow),
+        inset 0 0 120px rgba(140, 20, 20, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      animation: rageRoomPulse 0.55s ease-in-out infinite alternate;
+    }
+
+    @keyframes rageRoomPulse {
+      from { filter: saturate(1.05) contrast(1.02); }
+      to { filter: saturate(1.25) contrast(1.08); }
+    }
+
+    .floor {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 28%;
+      background: linear-gradient(180deg, #c9b8a4 0%, #b5a08c 100%);
+    }
+
+    .window {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 42%;
+      height: 22%;
+      background: linear-gradient(180deg, #b8d4e8 0%, #9ec4dc 100%);
+      border: 4px solid #8a7a6a;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35);
+    }
+
+    .window::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 48%, #8a7a6a 48%, #8a7a6a 52%, transparent 52%);
+    }
+
+    .sun-disc {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      background: var(--sun);
+      border-radius: 50%;
+      top: 18%;
+      right: 18%;
+      animation: sunPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes sunPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.85; }
+    }
+
+    .clock {
+      position: absolute;
+      top: 8%;
+      right: 10%;
+      width: 36px;
+      height: 36px;
+      background: #faf6f0;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .clock::before,
+    .clock::after {
+      content: "";
+      position: absolute;
+      background: var(--ink);
+      border-radius: 1px;
+      left: 50%;
+      top: 50%;
+      transform-origin: bottom center;
+    }
+
+    .clock::before {
+      width: 2px;
+      height: 10px;
+      margin-left: -1px;
+      margin-top: -10px;
+      animation: tick 8s linear infinite;
+    }
+
+    .clock::after {
+      width: 2px;
+      height: 7px;
+      margin-left: -1px;
+      margin-top: -7px;
+      animation: tick 64s linear infinite;
+    }
+
+    @keyframes tick {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Crumbs on floor — cleared while sweeping */
+    .crumbs {
+      position: absolute;
+      bottom: 26%;
+      left: 0;
+      right: 0;
+      height: 18%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .crumb {
+      position: absolute;
+      width: 12px;
+      height: 8px;
+      background: #7a6a58;
+      border-radius: 40%;
+      opacity: 0.85;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .crumb:nth-child(1) { left: 18%; bottom: 8%; transform: rotate(-12deg); }
+    .crumb:nth-child(2) { left: 38%; bottom: 22%; width: 10px; height: 7px; }
+    .crumb:nth-child(3) { right: 32%; bottom: 12%; transform: rotate(20deg); }
+    .crumb:nth-child(4) { right: 16%; bottom: 28%; width: 9px; height: 6px; }
+
+    .scene.sweeping .crumb {
+      opacity: 0;
+      transform: translate(20px, -10px) scale(0.3);
+    }
+
+    .scene.sweeping .crumb:nth-child(1) { transition-delay: 0.4s; }
+    .scene.sweeping .crumb:nth-child(2) { transition-delay: 0.9s; }
+    .scene.sweeping .crumb:nth-child(3) { transition-delay: 1.3s; }
+    .scene.sweeping .crumb:nth-child(4) { transition-delay: 1.8s; }
+
+    /* Girl */
+    .girl {
+      position: absolute;
+      bottom: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 210px;
+      z-index: 6;
+      transition: transform 0.5s ease;
+    }
+
+    .girl.furious {
+      animation: rageStomp 0.16s ease-in-out infinite alternate;
+      z-index: 10;
+    }
+
+    @keyframes rageStomp {
+      0% {
+        transform: translateX(-50%) translate(-5px, 1px) rotate(-8deg) scale(1.04);
+      }
+      100% {
+        transform: translateX(-50%) translate(5px, -1px) rotate(8deg) scale(1.07);
+      }
+    }
+
+    .girl.work-sweep {
+      animation: sweepBody 0.85s ease-in-out infinite;
+    }
+
+    @keyframes sweepBody {
+      0%, 100% { transform: translateX(calc(-50% - 14px)) rotate(-4deg); }
+      50% { transform: translateX(calc(-50% + 14px)) rotate(4deg); }
+    }
+
+    .girl.work-dishes {
+      animation: dishBody 0.7s ease-in-out infinite;
+    }
+
+    @keyframes dishBody {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    .girl.work-laundry {
+      animation: laundryNudge 0.9s ease-in-out infinite;
+    }
+
+    @keyframes laundryNudge {
+      0%, 100% { transform: translateX(calc(-50% - 4px)); }
+      50% { transform: translateX(calc(-50% + 4px)); }
+    }
+
+    .girl.work-mop {
+      animation: mopLean 1s ease-in-out infinite;
+    }
+
+    @keyframes mopLean {
+      0%, 100% { transform: translateX(calc(-50% - 10px)) rotate(-3deg); }
+      50% { transform: translateX(calc(-50% + 10px)) rotate(3deg); }
+    }
+
+    .head {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72px;
+      height: 78px;
+      background: #f2c4a8;
+      border-radius: 50% 50% 48% 48%;
+      border: 3px solid var(--ink);
+      z-index: 3;
+    }
+
+    .hair {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 86px;
+      height: 52px;
+      background: #3d2f26;
+      border-radius: 50% 50% 40% 40%;
+      border: 3px solid var(--ink);
+      z-index: 2;
+    }
+
+    .hair::after {
+      content: "";
+      position: absolute;
+      bottom: -28px;
+      left: 4px;
+      width: 28px;
+      height: 70px;
+      background: #3d2f26;
+      border-radius: 0 0 12px 12px;
+      border: 3px solid var(--ink);
+      border-top: none;
+    }
+
+    .hair::before {
+      content: "";
+      position: absolute;
+      bottom: -28px;
+      right: 4px;
+      width: 28px;
+      height: 70px;
+      background: #3d2f26;
+      border-radius: 0 0 12px 12px;
+      border: 3px solid var(--ink);
+      border-top: none;
+    }
+
+    .brow {
+      position: absolute;
+      top: 32px;
+      width: 18px;
+      height: 4px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: transform 0.5s ease;
+    }
+
+    .brow.left { left: 14px; transform: rotate(-8deg); }
+    .brow.right { right: 14px; transform: rotate(8deg); }
+
+    .girl.furious .brow.left {
+      width: 22px;
+      transform: rotate(52deg) translate(2px, 5px);
+    }
+
+    .girl.furious .brow.right {
+      width: 22px;
+      transform: rotate(-52deg) translate(-2px, 5px);
+    }
+
+    .girl.tired .brow.left { transform: rotate(6deg) translateY(3px); }
+    .girl.tired .brow.right { transform: rotate(-6deg) translateY(3px); }
+
+    .eye {
+      position: absolute;
+      top: 40px;
+      width: 10px;
+      height: 10px;
+      background: var(--ink);
+      border-radius: 50%;
+      animation: blink 4s ease-in-out infinite;
+    }
+
+    .eye.left { left: 18px; }
+    .eye.right { right: 18px; }
+
+    .girl.furious .eye {
+      animation: rageEye 0.12s linear infinite;
+      width: 13px;
+      height: 13px;
+      top: 38px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 38%, #1a120e 22%, #ff6f00 24%, #bf360c 70%, #3e2723 100%);
+      box-shadow: 0 0 10px rgba(255, 87, 34, 0.85);
+    }
+
+    .girl.furious .eye.left { left: 13px; }
+    .girl.furious .eye.right { right: 13px; }
+
+    @keyframes rageEye {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12, 0.92); }
+    }
+
+    .mouth {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 10px;
+      border: 3px solid var(--ink);
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+      transition: all 0.4s ease;
+    }
+
+    .girl.furious .mouth {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.3);
+    }
+
+    .grit-teeth {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      gap: 3px;
+      padding: 4px 8px;
+      background: #fff8f0;
+      border: 3px solid var(--ink);
+      border-radius: 6px;
+      z-index: 4;
+    }
+
+    .girl.furious .grit-teeth {
+      display: flex;
+      animation: teethChatter 0.12s linear infinite;
+    }
+
+    .grit-teeth i {
+      width: 5px;
+      height: 9px;
+      background: #fafafa;
+      border: 2px solid var(--ink);
+      border-radius: 1px;
+    }
+
+    @keyframes teethChatter {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(1px); }
+    }
+
+    .veins {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      height: 22px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .girl.furious .veins { opacity: 1; }
+
+    .veins i {
+      position: absolute;
+      width: 3px;
+      height: 18px;
+      background: #b71c1c;
+      border-radius: 2px;
+      opacity: 0.85;
+    }
+
+    .veins i:nth-child(1) {
+      left: 10px;
+      top: 2px;
+      transform: rotate(-28deg);
+    }
+
+    .veins i:nth-child(2) {
+      right: 10px;
+      top: 2px;
+      transform: rotate(28deg);
+    }
+
+    .veins i:nth-child(3) {
+      left: 50%;
+      top: 0;
+      margin-left: -1.5px;
+      height: 14px;
+      transform: rotate(8deg);
+    }
+
+    .girl.tired .mouth {
+      width: 18px;
+      height: 3px;
+      border-radius: 2px;
+      border: none;
+      background: var(--ink);
+      bottom: 20px;
+    }
+
+    .steam {
+      position: absolute;
+      top: -20px;
+      right: -8px;
+      width: 40px;
+      height: 40px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .girl.furious .steam { opacity: 1; }
+
+    .flames {
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 44px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .girl.furious .flames { opacity: 1; }
+
+    .flames span {
+      position: absolute;
+      bottom: 0;
+      width: 14px;
+      height: 32px;
+      background: linear-gradient(180deg, #ffeb3b 0%, #ff9800 45%, #e65100 100%);
+      border: 2px solid #3e2723;
+      border-radius: 50% 50% 40% 40%;
+      animation: flameLick 0.22s ease-in-out infinite alternate;
+    }
+
+    .flames span:nth-child(1) { left: 4px; animation-delay: 0s; transform: rotate(-6deg); }
+    .flames span:nth-child(2) { left: 22px; height: 38px; animation-delay: 0.05s; }
+    .flames span:nth-child(3) { left: 42px; animation-delay: 0.1s; transform: rotate(4deg); }
+    .flames span:nth-child(4) { right: 18px; height: 30px; animation-delay: 0.08s; }
+    .flames span:nth-child(5) { right: 2px; animation-delay: 0.03s; transform: rotate(8deg); }
+
+    @keyframes flameLick {
+      from { transform: translateY(4px) scaleY(0.85); filter: brightness(1); }
+      to { transform: translateY(-2px) scaleY(1.08); filter: brightness(1.15); }
+    }
+
+    .girl.furious .head {
+      background: radial-gradient(circle at 50% 32%, #ffccbc 0%, #e57373 38%, #d7a08c 100%);
+      box-shadow: 0 0 0 3px var(--ink), 0 0 24px rgba(211, 47, 47, 0.55);
+    }
+
+    .steam span {
+      position: absolute;
+      width: 8px;
+      height: 22px;
+      border: 3px solid var(--accent);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      animation: steamRise 0.6s ease-out infinite;
+    }
+
+    .steam span:nth-child(1) { left: 0; animation-delay: 0s; }
+    .steam span:nth-child(2) { left: 14px; animation-delay: 0.15s; }
+    .steam span:nth-child(3) { left: 28px; animation-delay: 0.3s; }
+
+    .girl.furious .steam span {
+      border-color: #d84315;
+      height: 26px;
+      animation: steamRiseFurious 0.35s ease-out infinite;
+    }
+
+    @keyframes steamRise {
+      from { transform: translateY(0) scaleY(0.4); opacity: 0; }
+      40% { opacity: 1; }
+      to { transform: translateY(-18px) scaleY(1); opacity: 0; }
+    }
+
+    @keyframes steamRiseFurious {
+      from { transform: translateY(4px) scaleY(0.5); opacity: 0.9; }
+      to { transform: translateY(-28px) scaleY(1.2); opacity: 0; }
+    }
+
+    @keyframes blink {
+      0%, 94%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.1); }
+    }
+
+    .body {
+      position: absolute;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 72px;
+      background: #6b8cae;
+      border: 3px solid var(--ink);
+      border-radius: 12px 12px 8px 8px;
+      z-index: 1;
+    }
+
+    .arm {
+      position: absolute;
+      top: 82px;
+      width: 14px;
+      height: 48px;
+      background: #f2c4a8;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      z-index: 0;
+      transform-origin: top center;
+    }
+
+    .arm.left {
+      left: 8px;
+      transform: rotate(18deg);
+    }
+
+    .arm.right {
+      right: 8px;
+      transform: rotate(-18deg);
+    }
+
+    .girl.work-sweep .arm.right {
+      z-index: 5;
+      animation: armSweep 0.85s ease-in-out infinite;
+    }
+
+    .girl.furious .arm {
+      z-index: 5;
+    }
+
+    .girl.furious .arm.left {
+      animation: fistPumpL 0.18s ease-in-out infinite alternate;
+    }
+
+    .girl.furious .arm.right {
+      animation: fistPumpR 0.18s ease-in-out infinite alternate;
+    }
+
+    @keyframes fistPumpL {
+      from { transform: rotate(-95deg); }
+      to { transform: rotate(-125deg); }
+    }
+
+    @keyframes fistPumpR {
+      from { transform: rotate(95deg); }
+      to { transform: rotate(125deg); }
+    }
+
+    .girl.work-sweep .arm.left {
+      transform: rotate(35deg);
+    }
+
+    @keyframes armSweep {
+      0%, 100% { transform: rotate(-55deg); }
+      50% { transform: rotate(-95deg); }
+    }
+
+    .girl.work-dishes .arm.left {
+      animation: armScrub 0.7s ease-in-out infinite;
+    }
+
+    .girl.work-dishes .arm.right {
+      transform: rotate(-35deg);
+    }
+
+    @keyframes armScrub {
+      0%, 100% { transform: rotate(40deg); }
+      50% { transform: rotate(65deg); }
+    }
+
+    .girl.work-laundry .arm.left,
+    .girl.work-laundry .arm.right {
+      animation: armFold 0.9s ease-in-out infinite;
+    }
+
+    @keyframes armFold {
+      0%, 100% { transform: rotate(25deg); }
+      50% { transform: rotate(45deg); }
+    }
+
+    .girl.work-laundry .arm.right {
+      animation: armFoldR 0.9s ease-in-out infinite;
+    }
+
+    @keyframes armFoldR {
+      0%, 100% { transform: rotate(-25deg); }
+      50% { transform: rotate(-48deg); }
+    }
+
+    .girl.work-mop .arm.right {
+      animation: armMop 1s ease-in-out infinite;
+    }
+
+    .girl.work-mop .arm.left {
+      transform: rotate(25deg);
+    }
+
+    @keyframes armMop {
+      0%, 100% { transform: rotate(-30deg); }
+      50% { transform: rotate(-75deg); }
+    }
+
+    .skirt {
+      position: absolute;
+      top: 136px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 44px solid transparent;
+      border-right: 44px solid transparent;
+      border-top: 56px solid #c45c3e;
+      filter: drop-shadow(0 2px 0 var(--ink));
+    }
+
+    .skirt::before {
+      content: "";
+      position: absolute;
+      top: -56px;
+      left: -44px;
+      width: 88px;
+      height: 8px;
+      background: #a84830;
+    }
+
+    .leg {
+      position: absolute;
+      top: 186px;
+      width: 16px;
+      height: 40px;
+      background: #f2c4a8;
+      border: 3px solid var(--ink);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .leg.left { left: 36px; }
+    .leg.right { right: 36px; }
+
+    /* Broom (follows right arm) */
+    .broom {
+      position: absolute;
+      top: 118px;
+      right: -26px;
+      width: 14px;
+      height: 100px;
+      opacity: 0;
+      transform-origin: 50% 8%;
+      pointer-events: none;
+      z-index: 6;
+      transition: opacity 0.35s ease;
+    }
+
+    .girl.work-sweep .broom {
+      opacity: 1;
+      animation: broomSwing 0.85s ease-in-out infinite;
+    }
+
+    @keyframes broomSwing {
+      0%, 100% { transform: rotate(18deg); }
+      50% { transform: rotate(-32deg); }
+    }
+
+    .broom-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 62px;
+      background: var(--broom);
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+    }
+
+    .broom-head {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 28px;
+      background: var(--broom-straw);
+      border: 3px solid var(--ink);
+      border-radius: 4px 4px 10px 10px;
+    }
+
+    .broom-head::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
+      height: 10px;
+      background: repeating-linear-gradient(
+        90deg,
+        #a88c42 0 3px,
+        transparent 3px 6px
+      );
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    /* Sink + dishes */
+    .sink-zone {
+      position: absolute;
+      bottom: 30%;
+      left: 6%;
+      width: 72px;
+      height: 52px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 3;
+    }
+
+    .scene.dishes-on .sink-zone { opacity: 1; }
+
+    .sink {
+      width: 100%;
+      height: 36px;
+      background: linear-gradient(180deg, #cfd8dc 0%, #b0bec5 100%);
+      border: 3px solid var(--ink);
+      border-radius: 0 0 14px 14px;
+      box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .tap {
+      position: absolute;
+      top: -12px;
+      right: 8px;
+      width: 8px;
+      height: 18px;
+      background: #90a4ae;
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+    }
+
+    .bubbles {
+      position: absolute;
+      top: 6px;
+      left: 12px;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .scene.dishes-on .bubbles {
+      opacity: 1;
+      animation: bubblePop 1.2s ease-in-out infinite;
+    }
+
+    @keyframes bubblePop {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      50% { transform: translate(6px, -8px) scale(1.2); opacity: 1; }
+    }
+
+    /* Laundry basket */
+    .basket {
+      position: absolute;
+      bottom: 24%;
+      right: 8%;
+      width: 56px;
+      height: 40px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 3;
+    }
+
+    .scene.laundry-on .basket { opacity: 1; }
+
+    .basket-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: #a1887f;
+      border: 3px solid var(--ink);
+      border-radius: 4px 4px 10px 10px;
+      clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+    }
+
+    .cloth {
+      position: absolute;
+      bottom: 22px;
+      width: 22px;
+      height: 14px;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      animation: clothWobble 1s ease-in-out infinite;
+    }
+
+    .basket .cloth:nth-of-type(1) {
+      left: 4px;
+      background: #7e57c2;
+      animation-delay: 0.1s;
+    }
+
+    .basket .cloth:nth-of-type(2) {
+      left: 20px;
+      background: #43a047;
+      animation-delay: 0.2s;
+    }
+
+    .basket .cloth:nth-of-type(3) {
+      right: 4px;
+      background: #ffb74d;
+      animation-delay: 0.15s;
+    }
+
+    @keyframes clothWobble {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(6deg); }
+    }
+
+    /* Mop */
+    .mop-prop {
+      position: absolute;
+      bottom: 18%;
+      left: 8%;
+      width: 12px;
+      height: 120px;
+      opacity: 0;
+      transform-origin: 50% 100%;
+      z-index: 3;
+      transition: opacity 0.4s ease;
+    }
+
+    .scene.mop-on .mop-prop {
+      opacity: 1;
+      animation: mopSway 1s ease-in-out infinite;
+    }
+
+    @keyframes mopSway {
+      0%, 100% { transform: rotate(-12deg); }
+      50% { transform: rotate(12deg); }
+    }
+
+    .mop-stick {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 88px;
+      background: #5d4037;
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+    }
+
+    .mop-yarn {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 32px;
+      background: #eceff1;
+      border: 3px solid var(--ink);
+      border-radius: 6px 6px 12px 12px;
+    }
+
+    /* Phone */
+    .phone-wrap {
+      position: absolute;
+      bottom: 40%;
+      right: 10%;
+      opacity: 0;
+      transform: translateY(20px) rotate(-12deg);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+      z-index: 8;
+    }
+
+    .phone-wrap.show {
+      opacity: 1;
+      transform: translateY(0) rotate(-12deg);
+    }
+
+    .phone {
+      width: 38px;
+      height: 60px;
+      background: #2a2420;
+      border-radius: 8px;
+      border: 3px solid var(--ink);
+      position: relative;
+    }
+
+    .phone-wrap.ringing .phone {
+      animation: vibrate 0.12s linear infinite;
+    }
+
+    @keyframes vibrate {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(1px, -1px); }
+      75% { transform: translate(-1px, 1px); }
+    }
+
+    .phone::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #444;
+    }
+
+    .call-label,
+    .missed {
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .call-label {
+      color: var(--wash);
+    }
+
+    .missed {
+      color: var(--accent);
+    }
+
+    .phone-wrap.ringing .call-label { opacity: 1; }
+    .phone-wrap.still .missed { opacity: 1; }
+    .phone-wrap.still .call-label { opacity: 0; }
+
+    .phone-wrap.rage-away {
+      opacity: 0.4;
+      transform: translateY(16px) rotate(-22deg) scale(0.86);
+      filter: grayscale(0.35);
+      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+    }
+
+    /* Ripple = ringing */
+    .ring-ripples {
+      position: absolute;
+      inset: -20px;
+      pointer-events: none;
+    }
+
+    .phone-wrap.ringing .ring-ripples span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 50px;
+      height: 50px;
+      margin: -25px 0 0 -25px;
+      border: 2px solid var(--wash);
+      border-radius: 50%;
+      opacity: 0;
+      animation: ringOut 1.4s ease-out infinite;
+    }
+
+    .phone-wrap.ringing .ring-ripples span:nth-child(2) { animation-delay: 0.45s; }
+
+    @keyframes ringOut {
+      from { transform: scale(0.5); opacity: 0.6; }
+      to { transform: scale(1.6); opacity: 0; }
+    }
+
+    .scene.calm-finale {
+      box-shadow:
+        0 24px 48px var(--shadow),
+        inset 0 0 100px rgba(255, 200, 150, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .scene.calm-finale .phone-wrap {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    /* Nirmit — friend with flowers */
+    .nirmit {
+      position: absolute;
+      bottom: 22%;
+      right: -42%;
+      width: 96px;
+      height: 198px;
+      z-index: 3;
+      transition: right 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .scene.nirmit-in .nirmit {
+      right: 6%;
+    }
+
+    .nirmit-tag {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      white-space: nowrap;
+    }
+
+    .scene.nirmit-in .nirmit-tag {
+      opacity: 1;
+    }
+
+    .nirmit-face {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 68px;
+      background: #e8c4a8;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .nirmit-hair {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72px;
+      height: 36px;
+      background: #1b1b1b;
+      border: 3px solid var(--ink);
+      border-radius: 50% 50% 35% 35%;
+      z-index: 1;
+    }
+
+    .nirmit-eyes {
+      position: absolute;
+      top: 30px;
+      left: 14px;
+      right: 14px;
+      height: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nirmit-eyes::before,
+    .nirmit-eyes::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--ink);
+      border-radius: 50%;
+    }
+
+    .nirmit-smile {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 8px;
+      border: 2px solid var(--ink);
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+    }
+
+    .nirmit-shirt {
+      position: absolute;
+      top: 62px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      height: 58px;
+      background: #2e7d6e;
+      border: 3px solid var(--ink);
+      border-radius: 10px 10px 6px 6px;
+    }
+
+    .nirmit-legs {
+      position: absolute;
+      top: 114px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .nirmit-legs i {
+      width: 15px;
+      height: 52px;
+      background: #37474f;
+      border: 3px solid var(--ink);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .nirmit-bouquet-wrap {
+      position: absolute;
+      left: -28px;
+      top: 72px;
+      z-index: 8;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .scene.flowers-given .nirmit-bouquet-wrap {
+      opacity: 0;
+      transform: translate(12px, 8px) scale(0.85);
+    }
+
+    .nirmit-bouquet {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      padding: 6px 8px 10px;
+      background: linear-gradient(180deg, #c8e6c9 0%, #a5d6a7 100%);
+      border: 3px solid var(--ink);
+      border-radius: 10px 10px 14px 14px;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .nirmit-bouquet span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+    }
+
+    .nirmit-bouquet span:nth-child(1) { background: #f48fb1; }
+    .nirmit-bouquet span:nth-child(2) { background: #fff176; height: 11px; }
+    .nirmit-bouquet span:nth-child(3) { background: #ef5350; }
+    .nirmit-bouquet span:nth-child(4) { background: #ba68c8; width: 11px; }
+    .nirmit-bouquet span:nth-child(5) { background: #ffab91; }
+
+    .nirmit-bouquet::after {
+      content: "";
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 22px;
+      background: #5d4037;
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+    }
+
+    .girl.with-friend {
+      transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateX(calc(-50% - 46px));
+    }
+
+    .flower-hold {
+      position: absolute;
+      left: 50%;
+      bottom: 118px;
+      transform: translateX(-50%) scale(0.92);
+      z-index: 12;
+      opacity: 0;
+      transition: opacity 0.85s ease, transform 0.85s ease;
+      pointer-events: none;
+    }
+
+    .scene.flowers-given .flower-hold {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .flower-hold .bouquet-mini {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      padding: 6px 8px 12px;
+      background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%);
+      border: 3px solid var(--ink);
+      border-radius: 10px 10px 14px 14px;
+      position: relative;
+      animation: bouquetSway 2.8s ease-in-out infinite;
+    }
+
+    @keyframes bouquetSway {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    .bouquet-mini span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+    }
+
+    .bouquet-mini span:nth-child(1) { background: #f48fb1; }
+    .bouquet-mini span:nth-child(2) { background: #fff176; }
+    .bouquet-mini span:nth-child(3) { background: #ef5350; }
+    .bouquet-mini span:nth-child(4) { background: #ba68c8; }
+    .bouquet-mini span:nth-child(5) { background: #ffab91; }
+
+    .bouquet-mini::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 18px;
+      background: #5d4037;
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+    }
+
+    .girl.calm {
+      animation: calmBreathe 3.2s ease-in-out infinite;
+    }
+
+    @keyframes calmBreathe {
+      0%, 100% {
+        transform: translateX(calc(-50% - 46px)) translateY(0);
+      }
+      50% {
+        transform: translateX(calc(-50% - 46px)) translateY(-4px);
+      }
+    }
+
+    .girl.calm .brow.left {
+      transform: rotate(-14deg) translateY(1px);
+    }
+
+    .girl.calm .brow.right {
+      transform: rotate(14deg) translateY(1px);
+    }
+
+    .girl.calm .eye {
+      animation: calmBlink 4s ease-in-out infinite;
+      width: 9px;
+      height: 9px;
+      top: 41px;
+      background: var(--ink);
+      box-shadow: none;
+    }
+
+    @keyframes calmBlink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.15); }
+    }
+
+    .girl.calm .mouth {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      width: 28px;
+      height: 14px;
+      border: 3px solid var(--ink);
+      border-top: none;
+      border-radius: 0 0 55% 55%;
+      bottom: 16px;
+      background: transparent;
+    }
+
+    .girl.calm .grit-teeth {
+      display: none !important;
+    }
+
+    .girl.holding-flowers .arm.left {
+      transform: rotate(48deg);
+    }
+
+    .girl.holding-flowers .arm.right {
+      transform: rotate(-48deg);
+    }
+
+    .replay {
+      margin-top: 1.75rem;
+      font-family: "Outfit", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.65rem 1.4rem;
+      border: 2px solid var(--ink);
+      background: #faf6f0;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 var(--ink);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .replay:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--ink);
+    }
+
+    .replay:focus-visible {
+      outline: 3px solid var(--wash);
+      outline-offset: 3px;
+    }
+
+    .hint {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 36ch;
+    }
+
+    .sound-row {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sound-row input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--wash);
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .girl.furious,
+      .scene.rage-shake,
+      .scene.rage-tint,
+      .girl.work-sweep,
+      .girl.work-dishes,
+      .girl.work-laundry,
+      .girl.work-mop {
+        animation: none !important;
+      }
+      .girl.work-sweep .broom { animation: none !important; }
+      .girl.calm {
+        animation: none !important;
+      }
+
+      .scene.flowers-given .bouquet-mini {
+        animation: none !important;
+      }
+      .girl.furious .arm.left,
+      .girl.furious .arm.right {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-live="polite">
+    <p class="caption" id="cap"></p>
+
+    <div class="scene" id="scene" role="img" aria-label="Animation: Jeel’s rough day, chores, then her friend Nirmit brings flowers and she calms">
+      <div class="sun-disc" aria-hidden="true"></div>
+      <div class="window" aria-hidden="true"></div>
+      <div class="clock" aria-hidden="true"></div>
+
+      <div class="mop-prop" aria-hidden="true">
+        <div class="mop-stick"></div>
+        <div class="mop-yarn"></div>
+      </div>
+
+      <div class="basket" aria-hidden="true">
+        <div class="cloth"></div>
+        <div class="cloth"></div>
+        <div class="cloth"></div>
+        <div class="basket-body"></div>
+      </div>
+
+      <div class="sink-zone" aria-hidden="true">
+        <div class="tap"></div>
+        <div class="sink"></div>
+        <div class="bubbles"></div>
+      </div>
+
+      <div class="crumbs" aria-hidden="true">
+        <span class="crumb"></span>
+        <span class="crumb"></span>
+        <span class="crumb"></span>
+        <span class="crumb"></span>
+      </div>
+
+      <div class="phone-wrap" id="phone">
+        <span class="call-label">Calling…</span>
+        <span class="missed">Not picking up</span>
+        <div class="ring-ripples" aria-hidden="true"><span></span><span></span></div>
+        <div class="phone"></div>
+      </div>
+
+      <div class="nirmit" id="nirmit" aria-hidden="true">
+        <span class="nirmit-tag">Nirmit</span>
+        <div class="nirmit-hair"></div>
+        <div class="nirmit-face">
+          <div class="nirmit-eyes"></div>
+          <div class="nirmit-smile"></div>
+        </div>
+        <div class="nirmit-shirt"></div>
+        <div class="nirmit-legs"><i></i><i></i></div>
+        <div class="nirmit-bouquet-wrap">
+          <div class="nirmit-bouquet" role="presentation">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="girl" id="girl">
+        <div class="broom" aria-hidden="true">
+          <div class="broom-handle"></div>
+          <div class="broom-head"></div>
+        </div>
+        <div class="hair"></div>
+        <div class="head">
+          <div class="steam" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="flames" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="brow left"></div>
+          <div class="brow right"></div>
+          <div class="veins" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="mouth"></div>
+          <div class="grit-teeth" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div class="body"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="flower-hold" aria-hidden="true">
+          <div class="bouquet-mini">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="skirt"></div>
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+      </div>
+
+      <div class="floor" aria-hidden="true"></div>
+    </div>
+
+    <button type="button" class="replay" id="replay">Play again</button>
+    <label class="sound-row">
+      <input type="checkbox" id="soundOn" checked />
+      <span>Sound synced to motion</span>
+    </label>
+    <p class="hint">If you hear nothing at first, tap anywhere on the page once — browsers only unlock audio after a gesture.</p>
+  </main>
+
+  <script>
+    (function () {
+      const AC = window.AudioContext || window.webkitAudioContext;
+
+      function createStoryAudio() {
+        let ctx = null;
+        let master = null;
+        let noiseBuf = null;
+        const intervals = [];
+        const timeouts = [];
+        const oscillators = [];
+
+        function trackInterval(id) {
+          intervals.push(id);
+        }
+
+        function trackTimeout(id) {
+          timeouts.push(id);
+        }
+
+        function trackOsc(o) {
+          oscillators.push(o);
+        }
+
+        function stopAll() {
+          stopRinging();
+          stopRage();
+          stopSweeping();
+          stopDishes();
+          stopLaundry();
+          stopMop();
+          intervals.forEach((id) => {
+            try {
+              clearInterval(id);
+            } catch (e) {
+              /* */
+            }
+          });
+          intervals.length = 0;
+          timeouts.forEach((id) => clearTimeout(id));
+          timeouts.length = 0;
+          oscillators.forEach((node) => {
+            try {
+              node.stop();
+              node.disconnect();
+            } catch (e) {
+              /* */
+            }
+          });
+          oscillators.length = 0;
+        }
+
+        function getCtx() {
+          if (!AC) return null;
+          if (!ctx) {
+            ctx = new AC();
+            master = ctx.createGain();
+            master.gain.value = 0.32;
+            master.connect(ctx.destination);
+          }
+          return ctx;
+        }
+
+        function ensureNoise() {
+          const c = getCtx();
+          if (!c || noiseBuf) return;
+          const len = c.sampleRate * 1.5;
+          noiseBuf = c.createBuffer(1, len, c.sampleRate);
+          const ch = noiseBuf.getChannelData(0);
+          for (let i = 0; i < len; i++) ch[i] = Math.random() * 2 - 1;
+        }
+
+        async function unlock() {
+          const c = getCtx();
+          if (!c) return;
+          ensureNoise();
+          if (c.state === "suspended") await c.resume();
+        }
+
+        function now() {
+          return getCtx() ? getCtx().currentTime : 0;
+        }
+
+        function tone(freq, dur, vol, type, t0) {
+          const c = getCtx();
+          if (!c || !master) return;
+          const t = t0 != null ? t0 : c.currentTime;
+          const o = c.createOscillator();
+          const g = c.createGain();
+          o.type = type || "sine";
+          o.frequency.setValueAtTime(freq, t);
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+          o.connect(g).connect(master);
+          o.start(t);
+          o.stop(t + dur + 0.06);
+          trackOsc(o);
+        }
+
+        function noiseBurst(dur, vol, freq, Q) {
+          const c = getCtx();
+          if (!c || !master || !noiseBuf) return;
+          const t = c.currentTime;
+          const src = c.createBufferSource();
+          src.buffer = noiseBuf;
+          const bp = c.createBiquadFilter();
+          bp.type = "bandpass";
+          bp.frequency.value = freq;
+          bp.Q.value = Q || 0.6;
+          const g = c.createGain();
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(vol, t + 0.015);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+          src.connect(bp).connect(g).connect(master);
+          src.start(t);
+          src.stop(t + dur + 0.02);
+          trackOsc(src);
+        }
+
+        function softRoom() {
+          const c = getCtx();
+          if (!c || !master) return;
+          const t = c.currentTime;
+          const o = c.createOscillator();
+          const g = c.createGain();
+          o.type = "sine";
+          o.frequency.setValueAtTime(196, t);
+          o.frequency.exponentialRampToValueAtTime(165, t + 2.4);
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(0.04, t + 0.4);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 2.8);
+          o.connect(g).connect(master);
+          o.start(t);
+          o.stop(t + 3);
+          trackOsc(o);
+        }
+
+        let ringInt = null;
+
+        function startRinging() {
+          stopRinging();
+          const c = getCtx();
+          if (!c || !master) return;
+          const ringOnce = () => {
+            const t = c.currentTime;
+            tone(523, 0.11, 0.14, "sine", t);
+            tone(659, 0.11, 0.12, "sine", t + 0.01);
+            noiseBurst(0.04, 0.06, 900, 2);
+          };
+          ringOnce();
+          ringInt = setInterval(ringOnce, 520);
+          trackInterval(ringInt);
+        }
+
+        function stopRinging() {
+          if (ringInt) {
+            clearInterval(ringInt);
+            ringInt = null;
+          }
+        }
+
+        function missedCallSound() {
+          const c = getCtx();
+          if (!c) return;
+          const t = c.currentTime;
+          tone(330, 0.12, 0.12, "triangle", t);
+          tone(247, 0.18, 0.1, "triangle", t + 0.14);
+          noiseBurst(0.08, 0.1, 400, 0.4);
+        }
+
+        function snapTension() {
+          const c = getCtx();
+          if (!c) return;
+          noiseBurst(0.06, 0.12, 1200, 1.2);
+          tone(82, 0.25, 0.15, "sawtooth", now());
+        }
+
+        let rageInt = null;
+        let rageOsc = null;
+        let rageGain = null;
+
+        function startRage() {
+          const c = getCtx();
+          if (!c || !master) return;
+          stopRage();
+          const t = c.currentTime;
+          rageOsc = c.createOscillator();
+          rageGain = c.createGain();
+          rageOsc.type = "sawtooth";
+          rageOsc.frequency.setValueAtTime(48, t);
+          rageOsc.frequency.linearRampToValueAtTime(62, t + 5);
+          rageGain.gain.setValueAtTime(0.0001, t);
+          rageGain.gain.exponentialRampToValueAtTime(0.07, t + 0.15);
+          rageOsc.connect(rageGain).connect(master);
+          rageOsc.start(t);
+
+          const stomp = () => noiseBurst(0.05, 0.22, 180, 0.35);
+          stomp();
+          rageInt = setInterval(stomp, 160);
+          trackInterval(rageInt);
+
+          const grit = setInterval(() => noiseBurst(0.03, 0.08, 2200 + Math.random() * 800, 0.9), 220);
+          trackInterval(grit);
+          rageInt = { stomp: rageInt, grit };
+        }
+
+        function stopRage() {
+          if (rageInt && typeof rageInt === "object" && rageInt.stomp) {
+            clearInterval(rageInt.stomp);
+            clearInterval(rageInt.grit);
+          } else if (rageInt) clearInterval(rageInt);
+          rageInt = null;
+          const c = getCtx();
+          if (rageOsc && c) {
+            try {
+              const t0 = c.currentTime;
+              rageGain.gain.cancelScheduledValues(t0);
+              rageGain.gain.setValueAtTime(Math.max(rageGain.gain.value, 0.0001), t0);
+              rageGain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.18);
+              rageOsc.stop(t0 + 0.22);
+            } catch (e) {
+              /* */
+            }
+            rageOsc = null;
+            rageGain = null;
+          }
+        }
+
+        let sweepInt = null;
+
+        function startSweeping() {
+          stopSweeping();
+          const c = getCtx();
+          if (!c) return;
+          const swish = () => {
+            const t = c.currentTime;
+            const src = c.createBufferSource();
+            src.buffer = noiseBuf;
+            const f = c.createBiquadFilter();
+            f.type = "bandpass";
+            f.frequency.setValueAtTime(280, t);
+            f.frequency.exponentialRampToValueAtTime(1400, t + 0.1);
+            f.Q.value = 0.7;
+            const g = c.createGain();
+            g.gain.setValueAtTime(0.0001, t);
+            g.gain.linearRampToValueAtTime(0.14, t + 0.05);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+            src.connect(f).connect(g).connect(master);
+            src.start(t);
+            src.stop(t + 0.16);
+            trackOsc(src);
+          };
+          swish();
+          sweepInt = setInterval(swish, 850);
+          trackInterval(sweepInt);
+        }
+
+        function stopSweeping() {
+          if (sweepInt) clearInterval(sweepInt);
+          sweepInt = null;
+        }
+
+        let dishInt = null;
+
+        function startDishes() {
+          stopDishes();
+          const c = getCtx();
+          if (!c) return;
+          const scrub = () => {
+            noiseBurst(0.05, 0.11, 650 + Math.random() * 200, 0.5);
+            if (Math.random() > 0.45) tone(1200 + Math.random() * 400, 0.04, 0.05, "square", now());
+          };
+          scrub();
+          dishInt = setInterval(scrub, 340);
+          trackInterval(dishInt);
+        }
+
+        function stopDishes() {
+          if (dishInt) clearInterval(dishInt);
+          dishInt = null;
+        }
+
+        let laundryInt = null;
+
+        function startLaundry() {
+          stopLaundry();
+          const c = getCtx();
+          if (!c) return;
+          const rustle = () => noiseBurst(0.12, 0.07, 400 + Math.random() * 300, 0.25);
+          rustle();
+          laundryInt = setInterval(rustle, 280);
+          trackInterval(laundryInt);
+        }
+
+        function stopLaundry() {
+          if (laundryInt) clearInterval(laundryInt);
+          laundryInt = null;
+        }
+
+        let mopInt = null;
+
+        function startMop() {
+          stopMop();
+          const c = getCtx();
+          if (!c) return;
+          const swoosh = () => {
+            const t = c.currentTime;
+            noiseBurst(0.14, 0.12, 350, 0.35);
+            tone(90, 0.2, 0.08, "sine", t);
+            tone(70, 0.22, 0.06, "sine", t + 0.08);
+          };
+          swoosh();
+          mopInt = setInterval(swoosh, 1000);
+          trackInterval(mopInt);
+        }
+
+        function stopMop() {
+          if (mopInt) clearInterval(mopInt);
+          mopInt = null;
+        }
+
+        function knockDoor() {
+          const c = getCtx();
+          if (!c) return;
+          [0, 0.22, 0.44].forEach((delay, i) => {
+            const id = setTimeout(() => {
+              noiseBurst(0.06, 0.35, 250 + i * 30, 0.4);
+              tone(180, 0.08, 0.1, "triangle", now());
+            }, delay * 1000);
+            trackTimeout(id);
+          });
+        }
+
+        function footstepsIn() {
+          const c = getCtx();
+          if (!c) return;
+          for (let i = 0; i < 6; i++) {
+            const id = setTimeout(() => {
+              noiseBurst(0.04, 0.12, 200 + Math.random() * 80, 0.3);
+            }, i * 160);
+            trackTimeout(id);
+          }
+        }
+
+        function gentleVoicePad() {
+          const c = getCtx();
+          if (!c || !master) return;
+          const t = c.currentTime;
+          [392, 494, 587].forEach((f, i) => {
+            const o = c.createOscillator();
+            const g = c.createGain();
+            o.type = "sine";
+            o.frequency.value = f;
+            g.gain.setValueAtTime(0.0001, t + i * 0.05);
+            g.gain.exponentialRampToValueAtTime(0.05, t + 0.25 + i * 0.05);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+            o.connect(g).connect(master);
+            o.start(t);
+            o.stop(t + 1.5);
+            trackOsc(o);
+          });
+        }
+
+        function flowersCalm() {
+          const c = getCtx();
+          if (!c || !master) return;
+          const t = c.currentTime;
+          const notes = [523, 659, 784, 1047];
+          notes.forEach((f, i) => {
+            const o = c.createOscillator();
+            const g = c.createGain();
+            o.type = "triangle";
+            o.frequency.value = f;
+            g.gain.setValueAtTime(0.0001, t + i * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.07, t + 0.2 + i * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+            o.connect(g).connect(master);
+            o.start(t);
+            o.stop(t + 2);
+            trackOsc(o);
+          });
+          noiseBurst(0.25, 0.04, 2000, 0.2);
+        }
+
+        function workTransitionWhoosh() {
+          noiseBurst(0.1, 0.09, 500, 0.4);
+        }
+
+        return {
+          unlock,
+          stopAll,
+          softRoom,
+          startRinging,
+          stopRinging,
+          missedCallSound,
+          snapTension,
+          startRage,
+          stopRage,
+          startSweeping,
+          stopSweeping,
+          startDishes,
+          stopDishes,
+          startLaundry,
+          stopLaundry,
+          startMop,
+          stopMop,
+          knockDoor,
+          footstepsIn,
+          gentleVoicePad,
+          flowersCalm,
+          workTransitionWhoosh,
+        };
+      }
+
+      const cap = document.getElementById("cap");
+      const girl = document.getElementById("girl");
+      const phone = document.getElementById("phone");
+      const scene = document.getElementById("scene");
+      const replay = document.getElementById("replay");
+      const soundOn = document.getElementById("soundOn");
+      const audio = createStoryAudio();
+
+      soundOn.addEventListener("change", () => {
+        if (!soundOn.checked) audio.stopAll();
+      });
+
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      async function maybeAudio(fn) {
+        if (!soundOn || !soundOn.checked) return;
+        await audio.unlock().catch(() => {});
+        if (!soundOn.checked) return;
+        fn();
+      }
+
+      function setCaption(html) {
+        cap.classList.remove("visible");
+        void cap.offsetWidth;
+        cap.innerHTML = html;
+        cap.classList.add("visible");
+      }
+
+      function resetVisuals() {
+        girl.className = "girl";
+        phone.className = "phone-wrap";
+        scene.className = "scene";
+      }
+
+      async function play() {
+        audio.stopAll();
+        resetVisuals();
+        cap.classList.remove("visible");
+        await wait(200);
+
+        await maybeAudio(() => audio.softRoom());
+        setCaption("<span class=\"name\">Jeel</span> checks the time.<br>The house is quiet — too quiet.");
+        await wait(3000);
+
+        setCaption("She dials the maid.<br><span class=\"emph\">Ring… ring… ring…</span>");
+        phone.classList.add("show", "ringing");
+        await maybeAudio(() => audio.startRinging());
+        await wait(3400);
+
+        phone.classList.remove("ringing");
+        phone.classList.add("still");
+        await maybeAudio(() => {
+          audio.stopRinging();
+          audio.missedCallSound();
+        });
+        setCaption("The call goes nowhere.<br><span class=\"emph\">The maid isn’t picking up.</span>");
+        await wait(2800);
+
+        setCaption("<span class=\"name\">Jeel</span> goes perfectly still for one heartbeat.<br>Then something <span class=\"emph\">snaps.</span>");
+        await maybeAudio(() => audio.snapTension());
+        await wait(2400);
+
+        scene.classList.add("rage-shake", "rage-tint");
+        phone.classList.add("rage-away");
+        girl.classList.add("furious");
+        setCaption("Teeth grinding. Veins throbbing. Eyes like hot coals — she shakes the whole frame.<br><span class=\"emph\">Jeel is beyond angry.</span>");
+        await maybeAudio(() => audio.startRage());
+        await wait(5400);
+
+        girl.classList.remove("furious");
+        scene.classList.remove("rage-shake", "rage-tint");
+        phone.classList.remove("rage-away");
+        await maybeAudio(() => {
+          audio.stopRage();
+          audio.workTransitionWhoosh();
+        });
+        setCaption("There’s no one to shout at. So the rage spills into her hands.<br><span class=\"emph\">Work — now.</span>");
+        await wait(3200);
+
+        girl.classList.add("tired", "work-sweep");
+        scene.classList.add("sweeping");
+        setCaption("First: <span class=\"name\">Jeel</span> sweeps — corners, crumbs, every dusty inch.");
+        await maybeAudio(() => audio.startSweeping());
+        await wait(4200);
+
+        girl.classList.remove("work-sweep");
+        scene.classList.remove("sweeping");
+        await maybeAudio(() => {
+          audio.stopSweeping();
+          audio.workTransitionWhoosh();
+        });
+        scene.classList.add("dishes-on");
+        girl.classList.remove("tired");
+        girl.classList.add("work-dishes");
+        setCaption("Then the dishes — scrub, rinse, stack, repeat.");
+        await maybeAudio(() => audio.startDishes());
+        await wait(3800);
+
+        girl.classList.remove("work-dishes");
+        scene.classList.remove("dishes-on");
+        await maybeAudio(() => {
+          audio.stopDishes();
+          audio.workTransitionWhoosh();
+        });
+        scene.classList.add("laundry-on");
+        girl.classList.add("tired", "work-laundry");
+        setCaption("Laundry mountain? Folded, sorted, shoved into the basket.");
+        await maybeAudio(() => audio.startLaundry());
+        await wait(3800);
+
+        girl.classList.remove("work-laundry");
+        scene.classList.remove("laundry-on");
+        await maybeAudio(() => {
+          audio.stopLaundry();
+          audio.workTransitionWhoosh();
+        });
+        scene.classList.add("mop-on");
+        girl.classList.add("work-mop");
+        setCaption("And the floor — mop water, back and forth, until it shines.");
+        await maybeAudio(() => audio.startMop());
+        await wait(4000);
+
+        girl.classList.remove("work-mop", "tired");
+        scene.classList.remove("mop-on");
+        await maybeAudio(() => {
+          audio.stopMop();
+          audio.softRoom();
+        });
+        setCaption("The chores are done — but <span class=\"name\">Jeel</span> still feels wired tight,<br>like a storm that forgot how to stop.");
+        await wait(3400);
+
+        girl.classList.add("with-friend");
+        scene.classList.add("nirmit-in", "calm-finale");
+        setCaption("A knock. The door opens.<br><span class=\"name\">Nirmit</span> — her friend — steps in with a bouquet wrapped in paper.");
+        await maybeAudio(() => {
+          audio.knockDoor();
+          audio.footstepsIn();
+        });
+        await wait(4200);
+
+        setCaption("He’d heard she had a rough day.<br><span class=\"emph\">“These are for you,”</span> he says gently. <span class=\"emph\">“Breathe.”</span>");
+        await maybeAudio(() => audio.gentleVoicePad());
+        await wait(4000);
+
+        scene.classList.add("flowers-given");
+        girl.classList.remove("with-friend");
+        girl.classList.add("calm", "holding-flowers");
+        setCaption("<span class=\"name\">Jeel</span> takes the flowers. Their colour, their scent — her shoulders drop.<br><span class=\"emph\">The anger finally lets go.</span>");
+        await maybeAudio(() => audio.flowersCalm());
+        await wait(4800);
+
+        setCaption("Sometimes calm isn’t something you force.<br>Sometimes a friend named <span class=\"name\">Nirmit</span> simply <span class=\"emph\">shows up</span> — and that’s enough.");
+        await maybeAudio(() => audio.softRoom());
+        await wait(4800);
+
+        cap.classList.remove("visible");
+        await wait(700);
+        audio.stopAll();
+        setCaption("Tap <strong>Play again</strong> to rewatch the whole day.");
+      }
+
+      function unlockFromGesture() {
+        audio.unlock().catch(() => {});
+      }
+
+      document.body.addEventListener("pointerdown", unlockFromGesture, { passive: true });
+      replay.addEventListener("click", () => {
+        unlockFromGesture();
+        play();
+      });
+
+      play();
+    })();
+  </script>
+</body>
+</html>
